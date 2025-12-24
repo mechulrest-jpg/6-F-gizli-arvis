@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6/F Sınıfı | Özel Panel</title>
+    <style>
+        /* --- EFSANE CSS BURADA BAŞLIYOR --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap');
+
+        :root {
+            --ana-renk: #00f2fe;
+            --ikinci-renk: #4facfe;
+            --arka-plan: #050b18;
+            --kart-renk: rgba(255, 255, 255, 0.03);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background-color: var(--arka-plan);
+            color: white;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Hareketli Arka Plan Işığı */
+        body::after {
+            content: "";
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* GİRİŞ EKRANI */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, #050b18);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.4));
+            margin-bottom: 10px;
+        }
+
+        .hero p { opacity: 0.6; font-size: 1.1rem; letter-spacing: 2px; }
+
+        .down-arrow {
+            margin-top: 30px;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+            color: var(--ana-renk);
+        }
+
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+        /* LİSTE ALANI */
+        .container {
+            max-width: 900px;
+            margin: 0 auto 100px auto;
+            padding: 20px;
+        }
+
+        .name-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .name-card {
+            background: var(--kart-renk);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .name-card:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--ana-renk);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.2);
+            color: var(--ana-renk);
+        }
+
+        /* MODAL (PENCERE) */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-content {
+            background: #111;
+            padding: 50px 30px;
+            border-radius: 30px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            border: 1px solid #333;
+            text-align: center;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: 0.3s;
+        }
+
+        .close-btn:hover { transform: rotate(90deg); background: #ff6b81; }
+
+        #modal-title { color: var(--ana-renk); margin-bottom: 15px; font-size: 2rem; }
+        #modal-text { line-height: 1.6; font-size: 1.1rem; color: #ccc; }
+
+        .warning-text {
+            font-size: 2.5rem;
+            color: #ff4757;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <h1>Merhaba, Burası 6/F Sınıfının Sitesi</h1>
+        <p>GİZLİ ARŞİVE HOŞ GELDİNİZ</p>
+        <div class="down-arrow">↓</div>
+    </section>
+
+    <div class="container">
+        <div class="name-list">
+            <div class="name-card" onclick="show('Ayşe', 'Ayşe Ecrin\'in sevgilisi var ve sınıfa geldiğinden beri herkes ondan nefret ediyor.')">Ayşe</div>
+            
+            <div class="name-card" onclick="show('Çiğdem', '<span class=\'warning-text\'>BURAYI DOLDURMADIM (Dostum tutanak yemek istemiyorum)</span> Bu kız mal mı tam bir gerizekalı sanırım Pardus\'a virüs indirmenin imkansız olduğunu biliyor (Kendini manifest üyesi zannediyo)')">Çiğdem</div>
+            
+            <div class="name-card" onclick="show('Meral', 'Meral de kendini manifest üyesi zannedenlerden, sınıfa her gün ayrı bir triple geliyor.')">Meral</div>
+            
+            <div class="name-card" onclick="show('Akıllı Tahta', 'Bu tahtaya yazık o kadar anakartını, ramini, işlemcisini çalıştırıyor yazık ;( ')">Akıllı Tahta</div>
+            
+            <div class="name-card" onclick="show('Muhammed', 'Henüz bir bilgi bulunamadı...')">Muhammed</div>
+            
+            <div class="name-card" onclick="show('Kendini Manifest Üyeleri Zannedenler Birliği', 'Zeynep hariç bütün kızlar (sanırım)')">Kendini Manifest Üyeleri Zannedenler Birliği</div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="hide()">X</button>
+            <h2 id="modal-title"></h2>
+            <div id="modal-text"></div>
+        </div>
+    </div>
+
+    <script>
+        function show(title, text) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-text').innerHTML = text;
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Kaydırmayı engelle
+        }
+
+        function hide() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto'; // Kaydırmayı aç
+        }
+
+        // Dışarı tıklayınca kapatma
+        window.onclick = function(e) {
+            if (e.target == document.getElementById('modal')) hide();
+        }
+    </script>
+</body>
+</html>
